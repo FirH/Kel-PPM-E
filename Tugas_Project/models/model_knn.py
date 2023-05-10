@@ -13,3 +13,5 @@ def predict(k,datalatih,labellatih,datauji) :
   counter = Counter(k_kelas)
   kelas_uji = counter.most_common(1)[0][0]
   return kelas_uji
+
+#HAHAHA
