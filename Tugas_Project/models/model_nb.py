@@ -47,7 +47,7 @@ def hitung_likelihood_general(data_latih, cat, num):
   return likelihood
 
 def training(data_latih):
-  cat_columns = data_latih.select_dtypes(include=['floating']).columns[:-1]
+  cat_columns = data_latih.select_dtypes(include=['floating']).columns
   num_columns = data_latih.select_dtypes(include=['integer', 'object']).columns[:-1]
   class_column_name = data_latih.columns[-1]
   prior = hitung_prior(data_latih[class_column_name])
@@ -62,8 +62,8 @@ def training(data_latih):
   return model
 
 def testing(model, data_uji):
-  cat_columns = data_uji.select_dtypes(include=['floating']).columns[:-1]
-  num_columns = data_uji.select_dtypes(include=['integer', 'object']).columns[:-1]
+  cat_columns = data_uji.select_dtypes(include=['floating']).columns
+  num_columns = data_uji.select_dtypes(include=['integer', 'object']).columns
   prior = model['prior']
   likelihood = model['likelihood']
   list_class = model['list_class']
