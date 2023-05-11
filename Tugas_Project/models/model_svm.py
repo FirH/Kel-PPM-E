@@ -32,7 +32,7 @@ class SVM:
         prediksi = np.array([])
         for i in range(data_uji.shape[0]):
             y_prediksi = np.sign(np.dot(self.W, data_uji.to_numpy()[i]))
-            y_prediksi = 0 if y_prediksi < 0 else 1
+            y_prediksi = 1 if y_prediksi > 0 else 0
             prediksi = np.append(prediksi, y_prediksi)
         return prediksi
 
