@@ -1,14 +1,14 @@
 import numpy as np
 from sklearn.utils import shuffle
 
+
 class SVM:
-  
     def __init__(self, learning_rate=0.000001, max_epoch=1000, regularization=10000):
         self.learning_rate = learning_rate
         self.max_epoch = max_epoch
         self.regularization = regularization
         self.W = None
-        
+
     def hitung_cost_gradient(self, W, X, Y):
         jarak = 1 - (Y * np.dot(X, W))
         dw = np.zeros(len(W))

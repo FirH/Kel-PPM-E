@@ -63,14 +63,14 @@ class DTGI:
                 tree[fitur_terbaik][nilai] = sub_tree
         return tree
 
-    def predict(self, data_uji, tree):
+    def predict(self, data_uji):
         for key in list(data_uji.keys()):
-            if key in list(tree.keys()):
+            if key in list(self.tree.keys()):
                 try:
-                    hasil = tree[key][data_uji[key]]
+                    hasil = self.tree[key][data_uji[key]]
                 except:
-                    return 1
-                hasil = tree[key][data_uji[key]]
+                    return 0
+                hasil = self.tree[key][data_uji[key]]
                 if isinstance(hasil, dict):
                     return self.predict(data_uji, hasil)
                 else:
