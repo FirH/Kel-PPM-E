@@ -47,8 +47,8 @@ def hitung_likelihood_general(data_latih, cat, num):
   return likelihood
 
 def training(data_latih):
-  cat_columns = data_latih.select_dtypes(include=['floating']).columns
-  num_columns = data_latih.select_dtypes(include=['integer', 'object']).columns[:-1]
+  num_columns = data_latih.select_dtypes(include=['floating']).columns
+  cat_columns = data_latih.select_dtypes(include=['integer', 'object']).columns[:-1]
   class_column_name = data_latih.columns[-1]
   prior = hitung_prior(data_latih[class_column_name])
   likelihood = hitung_likelihood_general(data_latih, cat_columns, num_columns)
@@ -62,19 +62,22 @@ def training(data_latih):
   return model
 
 def testing(model, data_uji):
-  cat_columns = data_uji.select_dtypes(include=['floating']).columns
-  num_columns = data_uji.select_dtypes(include=['integer', 'object']).columns
+  num_columns = data_uji.select_dtypes(include=['floating']).columns
+  cat_columns = data_uji.select_dtypes(include=['integer', 'object']).columns
   prior = model['prior']
   likelihood = model['likelihood']
   list_class = model['list_class']
   list_columns = model['list_columns']
   posterior = dict.fromkeys(list_class,1)
-  for column in list_columns:
-    if column in cat_columns:
-      for a_class in list_class:
-        posterior [a_class] = posterior[a_class]*likelihood[(column, data_uji[column], a_class)]* prior[a_class]
-    elif column in num_columns:
-      for a_class in list_class:
-        posterior [a_class] = posterior[a_class]*likelihood[(column, np.NaN, a_class)]* prior[a_class]
-  kelas_uji = max(posterior, key=posterior.get)
-  return kelas_uji
+  total_predictions = []
+  for index in range(data_uji.shape[0]):
+    for column in list_columns:
+      if column in cat_columns:
+        for a_class in list_class:
+          posterior [a_class] = posterior[a_class]*likelihood[(column, data_uji[column].iloc[index], a_class)]* prior[a_class]
+      elif column in num_columns:
+        for a_class in list_class:
+          posterior [a_class] = posterior[a_class]*likelihood[(column, np.NaN, a_class)]* prior[a_class]
+    kelas_uji = max(posterior, key=posterior.get)
+    total_predictions.append(kelas_uji)
+  return total_predictions
