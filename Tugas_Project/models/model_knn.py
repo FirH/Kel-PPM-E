@@ -1,9 +1,6 @@
 import numpy as np
 from collections import Counter
 
-<<<<<<< Updated upstream
-#HAHAHA
-=======
 class KNN:
     def __init__(self, k):
         self.k = k
@@ -23,4 +20,3 @@ class KNN:
 
     def predict(self, datalatih, datauji):
         return np.array([self.knn(self.k, datalatih, datauji.iloc[row]) for row in range(len(datauji))])
->>>>>>> Stashed changes
