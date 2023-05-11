@@ -3,7 +3,6 @@ import numpy as np
 
 # GINI INDEX
 
-
 class DTGI:
     def __init__(self):
         self.tree = None
@@ -64,7 +63,7 @@ class DTGI:
                 tree[fitur_terbaik][nilai] = sub_tree
         return tree
 
-    def prediksiGini(self, data_uji, tree):
+    def predict(self, data_uji, tree):
         for key in list(data_uji.keys()):
             if key in list(tree.keys()):
                 try:
@@ -73,7 +72,7 @@ class DTGI:
                     return 1
                 hasil = tree[key][data_uji[key]]
                 if isinstance(hasil, dict):
-                    return self.prediksiGini(data_uji, hasil)
+                    return self.predict(data_uji, hasil)
                 else:
                     return hasil
 
