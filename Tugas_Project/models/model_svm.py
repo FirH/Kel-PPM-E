@@ -21,7 +21,6 @@ class SVM:
 
     def sgd(self, data_latih, label_latih):
         data_latih = data_latih.to_numpy()
-        label_latih = label_latih.to_numpy()
         self.W = np.zeros(data_latih.shape[1])
         for epoch in range(1, self.max_epoch):
             X, Y = shuffle(data_latih, label_latih, random_state=101)
@@ -33,8 +32,10 @@ class SVM:
         prediksi = np.array([])
         for i in range(data_uji.shape[0]):
             y_prediksi = np.sign(np.dot(self.W, data_uji.to_numpy()[i]))
+            y_prediksi = 0 if y_prediksi < 0 else 1
             prediksi = np.append(prediksi, y_prediksi)
         return prediksi
 
     def fit(self, data_latih, label_latih):
+        label_latih = np.where(label_latih == 0, -1, 1)
         self.sgd(data_latih, label_latih)
