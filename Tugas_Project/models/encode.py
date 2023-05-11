@@ -1,6 +1,9 @@
 import pandas as pd
-
+import numpy as np
 def encode(df):
+    # Map chirrosis stages to 1 and 0
+    df['Stage'] = np.where(df['Stage'] == 4,1,0)
+    
     # Categorical Bool Mapping
     df_subset = df[['Ascites','Hepatomegaly','Spiders', 'Sex', 'Drug']]
     df_subset = df_subset.stack().map({'Y':1,'N':0, 'F' : 1, 'M' : 0, 'D-penicillamine' : 0, 'Placebo' : 1}).unstack()
@@ -17,5 +20,7 @@ def encode(df):
     # Cast non-categorical int64 column to float64
     df_bool_encoded[['N_Days', 'Age']] = df_bool_encoded[['N_Days', 'Age']].astype('float64')
     
+    # Drop rows with more than 5 NaN values
+    df_bool_encoded.dropna(thresh=4, axis=1, inplace=True)
     
     return df_bool_encoded

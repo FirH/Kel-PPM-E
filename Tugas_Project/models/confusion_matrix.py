@@ -1,6 +1,11 @@
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 
+def report_nb(df,model) :
+    data_latih, data_uji = train_test_split(df, test_size=0.2, random_state=42)
+    predictions = model.predict(data_latih, data_uji)
+    print(classification_report(data_uji[data_uji.columns[-1]], predictions))
+
 def report_knn(df,model) :
     data_latih, data_uji = train_test_split(df, test_size=0.2, random_state=42)
     predictions = model.predict(data_latih, data_uji)
