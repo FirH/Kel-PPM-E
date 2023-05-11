@@ -86,8 +86,9 @@ class DTGI:
 
 
 class DTIF:
-    def __init__(self) -> None:
+    def __init__(self):
         self.tree = None
+        self.data_uji_dict = None
 
     def hitung_entropy(self, kolom_kelas):
         elemen, banyak = np.unique(kolom_kelas, return_counts=True)
@@ -102,7 +103,6 @@ class DTIF:
         return entropy
 
     def information_gain(self, data, nama_fitur_split, nama_fitur_kelas):
-        # tuliskan kode Anda di sini
         root_entropy = self.itung_entropy(data[nama_fitur_kelas])
         nilai, banyak = np.unique(data[nama_fitur_split], return_counts=True)
         entropy_split = np.sum(
@@ -153,7 +153,15 @@ class DTIF:
                 )
                 tree[fitur_terbaik][nilai] = sub_tree
             return tree
-
+        
+    def predict(self,data_uji):
+        hasil_prediksi_total_ig = []
+        self.data_uji_dict = data_uji.iloc[:,:-1].to_dict(orient = "records")
+        for i in range(len(self.data_uji_dict)):
+            hasil_prediksi = self.predict(self.data_uji_dict[i],self.tree)
+            hasil_prediksi_total_ig.append(hasil_prediksi)
+        return hasil_prediksi_total_ig
+    
     def fit(self, data_latih, class_name_column):
         self.tree = self.buat_tree(
             data_latih, data_latih, data_latih.columns[:-1], class_name_column
