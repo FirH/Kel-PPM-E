@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def imputasi(df):
+def impute(df):
     num_columns = df.select_dtypes(include=['floating']).columns
     cat_columns = df.select_dtypes(include=['integer', 'object']).columns
     classCol = df.columns[-1]
