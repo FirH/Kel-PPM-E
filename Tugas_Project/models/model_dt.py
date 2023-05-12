@@ -6,6 +6,7 @@ import numpy as np
 class DTGI:
     def __init__(self):
         self.tree = None
+        self.data_latih = None
 
     def hitung_gini(self, kolom_kelas):
         elemen, banyak = np.unique(kolom_kelas, return_counts=True)
@@ -69,7 +70,7 @@ class DTGI:
                 try:
                     hasil = self.tree[key][data_uji[key]]
                 except:
-                    return 0
+                    return np.argmax(np.bincount(self.data_latih[self.data_latih.columns[-1]]))
                 hasil = self.tree[key][data_uji[key]]
                 if isinstance(hasil, dict):
                     return self.predict(data_uji, hasil)
@@ -80,6 +81,7 @@ class DTGI:
         self.tree = self.buat_tree(
             data_latih, data_latih, data_latih.columns[:-1], class_name_column
         )
+        self.data_latih = data_latih
 
 
 # INFORMATION GAIN
