@@ -1,14 +1,15 @@
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
 
-def imputasi(df):
-    cat_columns = df.select_dtypes(include=['floating']).columns
-    num_columns = df.select_dtypes(include=['integer', 'object']).columns
+def impute(df):
+    num_columns = df.select_dtypes(include=['floating']).columns
+    cat_columns = df.select_dtypes(include=['integer', 'object']).columns
     classCol = df.columns[-1]
     for col in cat_columns:
-        df[col] = df[col].fillna(df.groupby(classCol)[col].transform(pd.Series.mode))
+        df[col] = df[col].fillna(df[col].mode()[0])
     for col in num_columns:
-        df[col] = df[col].fillna(df.groupby(classCol)[col].transform(pd.Series.median))
+        df[col] = df[col].fillna(df[col].median())
     return df
 
 def zscore(df):
@@ -16,3 +17,9 @@ def zscore(df):
   for fitur in list_fitur:
     df[fitur] = (df[fitur] - df[fitur].mean())/(df[fitur].std())
   return df
+
+def TrainOneHotEncoding(df) :
+   return OneHotEncoder.fit_transform(df)
+
+def TestOneHotEncoding(df) :
+   return OneHotEncoder.transform(df)
