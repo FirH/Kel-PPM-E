@@ -12,7 +12,7 @@ def impute(df):
     return df
 
 def zscore(df):
-  list_fitur = df.select_dtypes(include=['integer', 'object']).columns[:-1]
-  for fitur in list_fitur:
-    df[fitur] = (df[fitur] - df[fitur].mean())/(df[fitur].std())
+  list_columns = df.select_dtypes(include=['floating']).columns[:-1]
+  for columns in list_columns:
+    df[columns] = ((df[columns] - df[columns].mean())/(df[columns].std()))
   return df
