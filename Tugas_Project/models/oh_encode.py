@@ -16,8 +16,7 @@ def oh_encode(df):
     
     # Convert boolean OHE columns to float
     for columns in df_oh_encoded:
-        if df_oh_encoded[columns].dtype == 'bool':
-            
+        if df_oh_encoded[columns].dtype == 'bool':            
             df_oh_encoded[columns] = df_oh_encoded[columns].astype(int)
     
     # Moving Stage to last column
